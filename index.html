@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#2d7a2d">
+  <meta name="description" content="ReUse - Dê uma Segunda Vida para objetos">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>ReUse — Dê uma Segunda Vida</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container" id="app">
+  
+  <!-- MAIN CONTENT -->
+  <div class="main-content" id="mainContent">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <i class="fas fa-seedling"></i>
+        <h1>ReUse <span>· segunda vida</span></h1>
+      </div>
+      <div class="badge-eco" id="pointsBadge">
+        <i class="fas fa-leaf"></i> <span id="userPoints">0</span> pts
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-card">
+      <p><i class="fas fa-quote-left"></i> Antes de jogar fora, descubra o que isso pode virar.</p>
+    </div>
+
+    <!-- SEARCH + ACTIONS -->
+    <div class="search-section">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Pesquisar objeto..." value="garrafa PET">
+      </div>
+      <button class="action-btn camera" id="cameraBtn" aria-label="Tirar foto">
+        <i class="fas fa-camera"></i>
+      </button>
+      <button class="action-btn" id="folderBtn" aria-label="Escolher categoria">
+        <i class="fas fa-folder"></i>
+      </button>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="categories" id="categoriesContainer">
+      <span class="category-chip" data-category="casa"><i class="fas fa-home"></i> Casa</span>
+      <span class="category-chip" data-category="embalagens"><i class="fas fa-box"></i> Embalagens</span>
+      <span class="category-chip" data-category="roupas"><i class="fas fa-tshirt"></i> Roupas</span>
+      <span class="category-chip" data-category="jardinagem"><i class="fas fa-seedling"></i> Jardinagem</span>
+      <span class="category-chip" data-category="alimentos"><i class="fas fa-apple-alt"></i> Alimentos</span>
+      <span class="category-chip" data-category="artesanato"><i class="fas fa-paint-brush"></i> Artesanato</span>
+      <span class="category-chip" data-category="outros"><i class="fas fa-tools"></i> Outros</span>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="resultsContainer">
+      <div class="result-title"><i class="fas fa-lightbulb"></i> Ideias para "garrafa PET"</div>
+      
+      <!-- Cards serão gerados pelo JavaScript -->
+      <div id="ideasList"></div>
+    </div>
+
+    <!-- SEGUNDA VIDA -->
+    <div class="segunda-vida">
+      <h3><i class="fas fa-sync-alt"></i> Segunda Vida</h3>
+      <div class="grid-transform" id="transformGrid">
+        <!-- Gerado pelo JavaScript -->
+      </div>
+    </div>
+
+    <!-- GAMIFICAÇÃO -->
+    <div class="gamification">
+      <div class="gam-left">
+        <div class="icon-big"><i class="fas fa-recycle"></i></div>
+        <div class="stats">
+          <div class="points">♻️ <span id="totalPoints">0</span> pts</div>
+          <div class="level" id="userLevel">🌱 Iniciante</div>
+        </div>
+      </div>
+      <div class="conquista-badge" id="conquistaBadge">
+        <i class="fas fa-award"></i> <span id="reusedCount">0</span> objetos
+      </div>
+    </div>
+
+    <!-- CONQUISTAS -->
+    <div class="conquistas-container" id="conquistasContainer">
+      <!-- Gerado pelo JavaScript -->
+    </div>
+
+    <div class="small-note">
+      <i class="fas fa-circle" style="font-size: 8px; color: #408040;"></i> 
+      Um objeto descartado pode ser o começo de uma nova solução.
+    </div>
+    <div style="height: 20px;"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="tab-item active" data-tab="home">
+      <i class="fas fa-home"></i><span>Início</span>
+    </div>
+    <div class="tab-item" data-tab="explore">
+      <i class="fas fa-compass"></i><span>Explorar</span>
+    </div>
+    <div class="tab-item" data-tab="reuse">
+      <i class="fas fa-plus-circle"></i><span>Reutilizar</span>
+    </div>
+    <div class="tab-item" data-tab="profile">
+      <i class="fas fa-user"></i><span>Perfil</span>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA REUTILIZAR -->
+<div class="modal" id="reuseModal">
+  <div class="modal-content">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <h2><i class="fas fa-plus-circle"></i> Registrar Reutilização</h2>
+    <form id="reuseForm">
+      <div class="form-group">
+        <label>📷 Foto do objeto</label>
+        <input type="file" id="reusePhoto" accept="image/*" capture="environment">
+      </div>
+      <div class="form-group">
+        <label>📝 Nome do objeto</label>
+        <input type="text" id="reuseName" placeholder="Ex: Garrafa PET" required>
+      </div>
+      <div class="form-group">
+        <label>🔄 O que era antes</label>
+        <input type="text" id="reuseBefore" placeholder="Ex: Garrafa de refrigerante" required>
+      </div>
+      <div class="form-group">
+        <label>✨ O que virou depois</label>
+        <input type="text" id="reuseAfter" placeholder="Ex: Vaso de planta" required>
+      </div>
+      <div class="form-group">
+        <label>📝 Descrição</label>
+        <textarea id="reuseDescription" placeholder="Como você reutilizou?" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">
+        <i class="fas fa-check-circle"></i> Registrar +10 pontos
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+</body>
+</html>
